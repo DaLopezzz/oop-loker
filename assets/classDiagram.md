@@ -299,25 +299,189 @@ Salin kode PlantUML berikut ke **draw.io** melalui menu **Arrange > Insert > Adv
 
 ```plantuml
 @startuml
+top to bottom direction
 skinparam classAttributeIconSize 0
-skinparam linetype ortho
+skinparam nodesep 65
+skinparam ranksep 75
 skinparam shadowing false
-skinparam monochrome false
+
 skinparam class {
-    BackgroundColor #F8FAFC
-    BorderColor #334155
-    HeaderBackgroundColor #E2E8F0
-    ArrowColor #475569
+    BackgroundColor White
+    BorderColor DarkSlateGray
+    ArrowColor DimGray
+    HeaderBackgroundColor LightCyan
 }
 
-title GET A JOB - Class Diagram
+skinparam enum {
+    BackgroundColor Ivory
+    BorderColor DarkGoldenRod
+}
 
-' =========================
-' ENUMS
-' =========================
-enum StatusVerifikasi {
+' ==========================================
+' 1. ABSTRACT SUPERCLASS
+' ==========================================
+abstract class Pengguna {
+    # id_pengguna : int
+    # nama : str
+    # email : str
+    - password_hash : str
+    # status_aktif : bool
+    --
+    + get_id_pengguna() : int
+    + get_nama() : str
+    + set_nama(nama : str) : void
+    + get_email() : str
+    + set_email(email : str) : void
+    + is_status_aktif() : bool
+    + ubah_password(password_baru : str) : void
+    + aktifkan_akun() : void
+    + nonaktifkan_akun() : void
+    + {abstract} get_role() : str
+}
+
+' ==========================================
+' 2. SUBCLASSES (AKTOR SISTEM)
+' ==========================================
+class AdminSistem {
+    - kode_admin : str
+    --
+    + get_kode_admin() : str
+    + verifikasi_pengajuan(id_pengajuan : int, disetujui : bool) : void
+    + kelola_pengguna(id_pengguna : int, aktif : bool) : void
+    + kelola_perusahaan(id_perusahaan : int) : void
+    + pantau_lowongan_global() : list<Lowongan>
+    + get_role() : str
+}
+
+class User {
+    - nomor_telepon : str
+    - alamat : str
+    - cv_path : str
+    --
+    + get_nomor_telepon() : str
+    + set_nomor_telepon(no_telp : str) : void
+    + get_alamat() : str
+    + set_alamat(alamat : str) : void
+    + get_cv_path() : str
+    + unggah_cv(path : str) : void
+    + cari_lowongan(kriteria : str) : list<Lowongan>
+    + kirim_lamaran(lowongan : Lowongan) : Lamaran
+    + pantau_lamaran() : list<Lamaran>
+    + ajukan_perusahaan(data : Perusahaan) : PengajuanPerusahaan
+    + get_role() : str
+}
+
+class HRD {
+    - jabatan : str
+    - perusahaan : Perusahaan
+    --
+    + get_jabatan() : str
+    + set_jabatan(jabatan : str) : void
+    + get_perusahaan() : Perusahaan
+    + buat_lowongan(data : Lowongan) : Lowongan
+    + ubah_lowongan(id_lowongan : int) : void
+    + buka_lowongan(id_lowongan : int) : void
+    + tutup_lowongan(id_lowongan : int) : void
+    + review_lamaran(id_lamaran : int) : void
+    + putuskan_status(lamaran : Lamaran, status : StatusLamaran) : void
+    + get_role() : str
+}
+
+class AdminPerusahaan {
+    - perusahaan : Perusahaan
+    --
+    + get_perusahaan() : Perusahaan
+    + kelola_profil_perusahaan() : void
+    + buat_akun_hrd(data : HRD) : HRD
+    + ubah_akun_hrd(id_hrd : int) : void
+    + nonaktifkan_hrd(id_hrd : int) : void
+    + get_role() : str
+}
+
+' ==========================================
+' 3. DOMAIN ENTITIES
+' ==========================================
+class PengajuanPerusahaan {
+    - id_pengajuan : int
+    - tanggal_pengajuan : datetime
+    - status : StatusPengajuan
+    - alasan_penolakan : str
+    --
+    + get_id_pengajuan() : int
+    + get_tanggal_pengajuan() : datetime
+    + get_status() : StatusPengajuan
+    + get_alasan_penolakan() : str
+    + ajukan() : void
+    + setujui() : void
+    + tolak(alasan : str) : void
+}
+
+class Lamaran {
+    - id_lamaran : int
+    - tanggal_lamaran : datetime
+    - status : StatusLamaran
+    - catatan_hrd : str
+    --
+    + get_id_lamaran() : int
+    + get_tanggal_lamaran() : datetime
+    + get_status() : StatusLamaran
+    + get_catatan_hrd() : str
+    + ajukan() : void
+    + ubah_status(status_baru : StatusLamaran) : void
+    + tambah_catatan(catatan : str) : void
+}
+
+class Lowongan {
+    - id_lowongan : int
+    - posisi : str
+    - deskripsi : str
+    - persyaratan : str
+    - lokasi : str
+    - gaji_min : float
+    - gaji_max : float
+    - status : StatusLowongan
+    - tanggal_dibuat : datetime
+    - tanggal_tutup : datetime
+    --
+    + get_id_lowongan() : int
+    + get_posisi() : str
+    + set_gaji(min : float, max : float) : void
+    + get_status() : StatusLowongan
+    + ubah_detail() : void
+    + buka() : void
+    + tutup() : void
+    + sesuai_kriteria(kriteria : str) : bool
+}
+
+class Perusahaan {
+    - id_perusahaan : int
+    - nama : str
+    - alamat : str
+    - deskripsi : str
+    - email : str
+    - status_verifikasi : StatusVerifikasi
+    --
+    + get_id_perusahaan() : int
+    + get_nama() : str
+    + set_nama(nama : str) : void
+    + get_status_verifikasi() : StatusVerifikasi
+    + ubah_profil() : void
+    + tambah_hrd(hrd : HRD) : void
+    + tambah_lowongan(lowongan : Lowongan) : void
+}
+
+' ==========================================
+' 4. ENUMERATIONS
+' ==========================================
+enum StatusPengajuan {
     DIAJUKAN
     DISETUJUI
+    DITOLAK
+}
+
+enum StatusLamaran {
+    MENUNGGU_REVIEW
+    DITERIMA
     DITOLAK
 }
 
@@ -327,151 +491,41 @@ enum StatusLowongan {
     DITUTUP
 }
 
-enum StatusLamaran {
-    MENUNGGU_REVIEW
-    DITERIMA
-    DITOLAK
-}
-
-enum StatusPengajuan {
+enum StatusVerifikasi {
     DIAJUKAN
     DISETUJUI
     DITOLAK
 }
 
-' =========================
-' ABSTRACT SUPERCLASS
-' =========================
-abstract class Pengguna {
-    # _id_pengguna : int
-    # _nama : str
-    # _email : str
-    - __password_hash : str
-    # _status_aktif : bool
-    --
-    + <<property>> id_pengguna() : int
-    + <<property>> nama() : str
-    + <<setter>> nama(nilai : str) : None
-    + <<property>> email() : str
-    + <<setter>> email(nilai : str) : None
-    + <<property>> status_aktif() : bool
-    + ubah_profil(nama : str, email : str) : None
-    + ubah_password(password_lama : str, password_baru : str) : bool
-    + verifikasi_password(password : str) : bool
-    + aktifkan_akun() : None
-    + nonaktifkan_akun() : None
-    + {abstract} get_role() : str
-    + {abstract} tampilkan_dashboard() : None
-}
+' ==========================================
+' 5. RELASI ANTAR CLASS & MULTIPLICITY
+' ==========================================
 
-' =========================
-' USER ROLES
-' =========================
-class User {
-    - __nomor_telepon : str
-    - __alamat : str
-    - __cv_path : str
-    --
-    + <<property>> nomor_telepon() : str
-    + <<setter>> nomor_telepon(nilai : str) : None
-    + <<property>> alamat() : str
-    + <<setter>> alamat(nilai : str) : None
-    + <<property>> cv_path() : str
-    + <<setter>> cv_path(nilai : str) : None
-    + unggah_cv(path : str) : None
-    + cari_lowongan(kriteria : str) : list<Lowongan>
-    + kirim_lamaran(lowongan : Lowongan) : Lamaran
-    + pantau_lamaran() : list<Lamaran>
-    + ajukan_perusahaan(nama : str, alamat : str, email : str, deskripsi : str) : PengajuanPerusahaan
-    + get_role() : str
-    + tampilkan_dashboard() : None
-}
+' --- Generalization (Inheritance) ---
+Pengguna <|-- AdminSistem
+Pengguna <|-- User
+Pengguna <|-- HRD
+Pengguna <|-- AdminPerusahaan
 
-class AdminPerusahaan {
-    - __perusahaan : Perusahaan
-    --
-    + <<property>> perusahaan() : Perusahaan
-    + kelola_profil_perusahaan(nama : str, alamat : str, deskripsi : str, email : str) : None
-    + buat_akun_hrd(nama : str, email : str, password : str, jabatan : str) : HRD
-    + ubah_akun_hrd(hrd : HRD, jabatan : str) : None
-    + nonaktifkan_hrd(hrd : HRD) : None
-    + get_role() : str
-    + tampilkan_dashboard() : None
-}
+' --- Association ---
+AdminSistem "0..1" -- "0..*" PengajuanPerusahaan : memverifikasi >
+User "1" -- "0..*" PengajuanPerusahaan : mengajukan >
+User "1" -- "0..*" Lamaran : mengajukan >
+HRD "1" -- "0..*" Lowongan : mengelola >
+Perusahaan "1" -- "1" AdminPerusahaan : dikelola oleh >
+PengajuanPerusahaan "0..1" -- "1" Perusahaan : menghasilkan >
 
-class HRD {
-    - __perusahaan : Perusahaan
-    - __jabatan : str
-    --
-    + <<property>> perusahaan() : Perusahaan
-    + <<property>> jabatan() : str
-    + <<setter>> jabatan(nilai : str) : None
-    + buat_lowongan(posisi : str, deskripsi : str, persyaratan : str, lokasi : str, gaji_min : float, gaji_max : float) : Lowongan
-    + ubah_lowongan(lowongan : Lowongan, posisi : str, deskripsi : str, persyaratan : str, lokasi : str, gaji_min : float, gaji_max : float) : None
-    + buka_lowongan(lowongan : Lowongan) : None
-    + tutup_lowongan(lowongan : Lowongan) : None
-    + review_lamaran(lamaran : Lamaran) : dict
-    + putuskan_status(lamaran : Lamaran, status : StatusLamaran, catatan : str) : None
-    + get_role() : str
-    + tampilkan_dashboard() : None
-}
+' --- Aggregation (Whole-Part Longgar) ---
+Perusahaan "1" o-- "1..*" HRD : memiliki >
 
-class AdminSistem {
-    + verifikasi_pengajuan(pengajuan : PengajuanPerusahaan, disetujui : bool, alasan : str) : Optional<Perusahaan>
-    + kelola_pengguna(pengguna : Pengguna, status_aktif : bool) : None
-    + kelola_perusahaan(perusahaan : Perusahaan, status : StatusVerifikasi) : None
-    + pantau_lowongan_global() : list<Lowongan>
-    + get_role() : str
-    + tampilkan_dashboard() : None
-}
+' --- Composition (Whole-Part Kuat) ---
+Perusahaan "1" *-- "0..*" Lowongan : menyediakan >
+Lowongan "1" *-- "0..*" Lamaran : menerima >
 
-' =========================
-' DOMAIN ENTITIES
-' =========================
-class Perusahaan {
-    - __id_perusahaan : int
-    - __nama : str
-    - __alamat : str
-    - __deskripsi : str
-    - __email : str
-    - __status_verifikasi : StatusVerifikasi
-    - __daftar_hrd : list<HRD>
-    - __daftar_lowongan : list<Lowongan>
-    --
-    + <<property>> id_perusahaan() : int
-    + <<property>> nama() : str
-    + <<setter>> nama(nilai : str) : None
-    + <<property>> alamat() : str
-    + <<setter>> alamat(nilai : str) : None
-    + <<property>> deskripsi() : str
-    + <<setter>> deskripsi(nilai : str) : None
-    + <<property>> email() : str
-    + <<setter>> email(nilai : str) : None
-    + <<property>> status_verifikasi() : StatusVerifikasi
-    + <<setter>> status_verifikasi(nilai : StatusVerifikasi) : None
-    + <<property>> daftar_hrd() : list<HRD>
-    + <<property>> daftar_lowongan() : list<Lowongan>
-    + ubah_profil(nama : str, alamat : str, deskripsi : str, email : str) : None
-    + tambah_hrd(hrd : HRD) : None
-    + tambah_lowongan(lowongan : Lowongan) : None
-}
+' --- Dependency (Penggunaan Enum) ---
+PengajuanPerusahaan ..> StatusPengajuan : <<use>>
+Lamaran ..> StatusLamaran : <<use>>
+Lowongan ..> StatusLowongan : <<use>>
+Perusahaan ..> StatusVerifikasi : <<use>>
 
-class Lowongan {
-    - __id_lowongan : int
-    - __perusahaan : Perusahaan
-    - __dibuat_oleh : HRD
-    - __posisi : str
-    - __deskripsi : str
-    - __persyaratan : str
-    - __lokasi : str
-    - __gaji_min : float
-    - __gaji_max : float
-    - __status : StatusLowongan
-    - __tanggal_dibuat : datetime
-    - __tanggal_tutup : Optional<datetime>
-    --
-    + <<property>> id_lowongan() : int
-    + <<property>> perusahaan() : Perusahaan
-    + <<property>> dibuat_oleh() : HRD
-    + <<property>> posisi() : str
-    + <<setter>> posisi(nilai : str) : N
+@enduml
