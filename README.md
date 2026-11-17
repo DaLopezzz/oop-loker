@@ -75,3 +75,13 @@ CLASS DIAGRAM, pemodelan struktur kelas, enkapsulasi atribut, serta relasi antar
 ![CLASS DIAGRAM](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/classDiagram.webp)
 
 Untuk melihat rincian atribut, visibilitas, aturan validasi enkapsulasi, serta kode sumber PlantUML, silakan buka [Dokumentasi Class Diagram](assets/classDiagram.md).
+
+## Sequence Diagram
+
+Sequence diagram dengan 3 skenario yang berbeda-beda
+
+![Sequence Diagram Scenario 1](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/SequenceDiagramScenario1.webp)
+
+![Sequence Diagram Scenario 2](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/SequenceDiagramScenario2.webp)
+
+![Sequence Diagram Scenario 3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/SequenceDiagramScenario3.webp)
