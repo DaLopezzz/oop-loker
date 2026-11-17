@@ -90,6 +90,6 @@ Sequence diagram dengan 3 skenario yang berbeda-beda
 
 ![ActivityDiagram1](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram1.webp)
 
-![ActivityDiagram1](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram2.webp)
+![ActivityDiagram3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram2.webp)
 
-![ActivityDiagram1](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram3.webp)
+![ActivityDiagram3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram3.webp)
