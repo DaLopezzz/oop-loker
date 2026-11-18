@@ -86,6 +86,8 @@ Sequence diagram dengan 3 skenario yang berbeda-beda
 
 ![Sequence Diagram Scenario 3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/SequenceDiagramScenario3.webp)
 
+Dokumentasi Sequence Diagram silahkan buka [Dokumentasi Sequence Diagram](assets/SequenceDiagram.md)
+
 ## Activity Diagram
 
 ![ActivityDiagram1](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram1.webp)
@@ -93,3 +95,5 @@ Sequence diagram dengan 3 skenario yang berbeda-beda
 ![ActivityDiagram3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram2.webp)
 
 ![ActivityDiagram3](https://raw.githubusercontent.com/Orchid123-rgb/oop-loker/refs/heads/main/assets/ActivityDiagram3.webp)
+
+Dokumentasi Activity Diagram silahkan buka [Dokumentasi Activity Diagram](assets/ActivityDiagram.md)
